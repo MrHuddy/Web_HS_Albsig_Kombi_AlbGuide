@@ -1,6 +1,6 @@
 # Web_HS_Albsig_Kombi
 
 
-git remote add origin https://github.com/MrHuddy/Web_HS_Albsig_Kombi.git
-git branch -M main
+git remote add origin https://github.com/MrHuddy/Web_HS_Albsig_Kombi.git <br>
+git branch -M main <br>
 git push -u origin main
