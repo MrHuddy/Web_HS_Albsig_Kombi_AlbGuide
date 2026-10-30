@@ -2,9 +2,9 @@
    1. Globale Variablen & Reset
    ========================================================================== */
 :root {
-    --primary-color: #2c7a7b;       /* Seriöses Natur-/Tourismus-Teal */
+    --primary-color: #2c7a7b;       /* Hab hier Natur farben benutzt */
     --primary-hover: #234e52;
-    --accent-color: #dd6b20;        /* Akzent-Orange für Buttons/Highlights */
+    --accent-color: #dd6b20;        /* Akzent-Orange für Buttons zum huighlighten */
     --bg-light: #f7fafc;
     --card-bg: #ffffff;
     --text-dark: #2d3748;
