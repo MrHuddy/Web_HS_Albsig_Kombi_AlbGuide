@@ -3,150 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlbGuide - Sehenswürdigkeiten in Albstadt</title>
+    <title>AlbGuide - Albstadt entdecken</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
 
-    <!-- Kopfbereich mit Navigation -->
     <header>
-        <h1>AlbGuide Albstadt</h1>
+        <div class="logo">
+            <h1>AlbGuide <span>Albstadt</span></h1>
+        </div>
         <nav>
             <ul>
-                <li><a href="index.html">Karte & Entdecken</a></li>
+                <li><a href="index.html" class="active">Startseite</a></li>
+                <li><a href="karte.html">Karte & Orte</a></li>
+                <li><a href="favoriten.html">Meine Favoriten (<span id="fav-counter">0</span>)</a></li>
                 <li><a href="kontakt.html">Kontakt & Impressum</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Hauptbereich -->
     <main>
-        <!-- Seitenleiste / Steuerungsbereich -->
-        <section aria-labelledby="filter-heading">
-            <h2 id="filter-heading">Orte filtern & suchen</h2>
-            
-            <form id="search-form" action="#" method="get">
-                <div>
-                    <label for="search">Suchbegriff:</label>
-                    <input type="search" id="search" name="q" placeholder="z. B. Schloss, Aussichtsturm...">
+        <!-- Hero-Banner mit Bild -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2>Sehenswürdigkeiten auf der Schwäbischen Alb entdecken</h2>
+                <p>Finden Sie Aussichtspunkte, historische Burgen, Wander-Highlights und Geheimtipps in und um Albstadt.</p>
+                <div class="hero-buttons">
+                    <a href="karte.html" class="btn btn-primary">Zur interaktiven Karte</a>
+                    <a href="karte.html#add-place-heading" class="btn btn-secondary">+ Eigenen Tipp eintragen</a>
                 </div>
-
-                <div>
-                    <label for="category-filter">Kategorie:</label>
-                    <select id="category-filter" name="category">
-                        <option value="">Alle Kategorien</option>
-                        <option value="natur">Natur & Wandern</option>
-                        <option value="kultur">Kultur & Geschichte</option>
-                        <option value="aussicht">Aussichtspunkte</option>
-                        <option value="gastro">Essen & Trinken</option>
-                    </select>
-                </div>
-
-                <button type="submit">Suchen</button>
-            </form>
-
-            <section aria-labelledby="places-list-heading">
-                <h3 id="places-list-heading">Gefundene Orte</h3>
-                <ul id="places-list">
-                    <!-- Beispiel-Eintrag zur Demonstration der HTML-Struktur -->
-                    <li>
-                        <article>
-                            <h4>Schloss Schenkenberg</h4>
-                            <p><strong>Kategorie:</strong> Kultur & Geschichte</p>
-                            <p>Historische Burganlage mit schönem Blick über die Stadt.</p>
-                            <button type="button">Auf Karte anzeigen</button>
-                        </article>
-                    </li>
-                </ul>
-            </section>
-        </section>
-
-        <!-- Bereich für die interaktive Karte -->
-        <section aria-labelledby="map-heading">
-            <h2 id="map-heading">Interaktive Karte</h2>
-            <!-- Hier wird später die Leaflet-Karte per JavaScript eingehängt -->
-            <div id="map-wrapper">
-                <div id="map" style="min-height: 400px; border: 1px dashed #ccc;" onclick="openPanel()">
-                    <p><em>[Kartenbereich - wird in Phase 2 via JavaScript geladen]</em></p>
-                    <p>(klicken simuliert Aufrufen einer Aktivität)</p>
-                </div>
-
-                <!-- Seitenfenster: liegt über der Karte, am Anfang versteckt -->
-                <aside id="side-panel" class="hidden">
-                    <button type="button" id="close-button" onclick="closePanel()">X</button>
-                    <p><em>Das ist nur ein Beispiel!</em></p>
-                    <img src="https://placehold.co/300x180?text=Irish+Pub+Ebingen" alt="Beispielbild Irish Pub">
-                    <h3>Irish Pub Ebingen</h3>
-                    <p><strong>Kategorie:</strong> Essen & Trinken</p>
-                    <p>Gemütlicher Pub in Ebingen mit Getränken und Snacks.</p>
-                    <p><strong>Ort:</strong> Albstadt-Ebingen</p>
-                    <p><strong>Öffnungszeiten:</strong> (Beispiel) ab 18 Uhr</p>
-                </aside>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80" alt="Blick über die Schwäbische Alb bei Albstadt">
             </div>
         </section>
 
-        <!-- Formular: Neuen Ort eintragen -->
-        <section aria-labelledby="add-place-heading">
-            <h2 id="add-place-heading">Neuen Ort vorschlagen</h2>
-            <form id="add-place-form" action="api/add_place.php" method="post" enctype="multipart/form-data">
-                <div>
-                    <label for="place-title">Name des Ortes *:</label>
-                    <input type="text" id="place-title" name="title" required>
-                </div>
+        <!-- Kacheln: Beliebte Orte in Albstadt -->
+        <section class="popular-places">
+            <h2>Beliebt in Albstadt</h2>
+            <div class="cards-grid">
+                
+                <article class="place-card">
+                    <img src="https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?w=500&auto=format&fit=crop&q=80" alt="Aussichtsturm Raichberg">
+                    <div class="card-body">
+                        <span class="category-badge aussicht">Aussichtspunkt</span>
+                        <h3>Raichberg-Turm & Zeller Horn</h3>
+                        <p class="address">📍 Onstmettingen, 72461 Albstadt</p>
+                        <p>Spektakulärer Panoramablick auf die Burg Hohenzollern und das Albtrauf-Panorama.</p>
+                        <div class="card-footer">
+                            <button type="button" class="btn-fav" title="Als Favorit merken">⭐ Merken</button>
+                            <a href="karte.html?place=1" class="btn btn-sm">Auf Karte</a>
+                        </div>
+                    </div>
+                </article>
 
-                <div>
-                    <label for="place-category">Kategorie *:</label>
-                    <select id="place-category" name="category" required>
-                        <option value="">Bitte wählen...</option>
-                        <option value="natur">Natur & Wandern</option>
-                        <option value="kultur">Kultur & Geschichte</option>
-                        <option value="aussicht">Aussichtspunkt</option>
-                        <option value="gastro">Essen & Trinken</option>
-                    </select>
-                </div>
+                <article class="place-card">
+                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=500&auto=format&fit=crop&q=80" alt="Schloss Schenkenberg">
+                    <div class="card-body">
+                        <span class="category-badge kultur">Kultur & Geschichte</span>
+                        <h3>Schloss Schenkenberg</h3>
+                        <p class="address">📍 Schenkenberg 1, 72458 Albstadt</p>
+                        <p>Historische Burganlage und Wahrzeichen mit idyllischem Innenhof und Ausblick.</p>
+                        <div class="card-footer">
+                            <button type="button" class="btn-fav" title="Als Favorit merken">⭐ Merken</button>
+                            <a href="karte.html?place=2" class="btn btn-sm">Auf Karte</a>
+                        </div>
+                    </div>
+                </article>
 
-                <div>
-                    <label for="place-description">Beschreibung *:</label>
-                    <textarea id="place-description" name="description" rows="4" required></textarea>
-                </div>
+                <article class="place-card">
+                    <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&auto=format&fit=crop&q=80" alt="Traufgang Wacholderhöhe">
+                    <div class="card-body">
+                        <span class="category-badge natur">Natur & Wandern</span>
+                        <h3>Traufgang Wacholderhöhe</h3>
+                        <p class="address">📍 Start: Parkplatz Tailfingen</p>
+                        <p>Prämierter Premium-Wanderweg durch typische Wacholderheiden der Schwäbischen Alb.</p>
+                        <div class="card-footer">
+                            <button type="button" class="btn-fav" title="Als Favorit merken">⭐ Merken</button>
+                            <a href="karte.html?place=3" class="btn btn-sm">Auf Karte</a>
+                        </div>
+                    </div>
+                </article>
 
-                <div>
-                    <label for="place-lat">Breitengrad (Latitude) *:</label>
-                    <input type="number" step="any" id="place-lat" name="latitude" placeholder="48.216" required>
-                </div>
-
-                <div>
-                    <label for="place-lng">Längengrad (Longitude) *:</label>
-                    <input type="number" step="any" id="place-lng" name="longitude" placeholder="9.028" required>
-                </div>
-
-                <div>
-                    <label for="place-image">Foto (optional):</label>
-                    <input type="file" id="place-image" name="image" accept="image/*">
-                </div>
-
-                <button type="submit">Ort einreichen</button>
-            </form>
+            </div>
         </section>
     </main>
 
-    <!-- Fußbereich -->
     <footer>
-        <p>&copy; 2026 AlbGuide - WebAnwendungen Praktikum</p>
+        <p>&copy; 2026 AlbGuide - WebAnwendungen Praktikum | <a href="kontakt.html#impressum">Impressum & Datenschutz</a></p>
     </footer>
-
-    <script>
-        // Seitenfenster anzeigen
-        function openPanel() {
-            document.getElementById("side-panel").classList.remove("hidden");
-        }
-
-        // Seitenfenster wieder verstecken
-        function closePanel() {
-            document.getElementById("side-panel").classList.add("hidden");
-        }
-    </script>
 
 </body>
 </html>

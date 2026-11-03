@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine Favoriten - AlbGuide</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>AlbGuide <span>Albstadt</span></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Startseite</a></li>
+                <li><a href="karte.html">Karte & Orte</a></li>
+                <li><a href="favoriten.html" class="active">Meine Favoriten (<span id="fav-counter">2</span>)</a></li>
+                <li><a href="kontakt.html">Kontakt & Impressum</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="favorites-header">
+            <h2>Gespeicherte Lieblingsorte</h2>
+            <p>Ihre gemerkten Orte werden lokal in Ihrem Browser gespeichert – kein Login notwendig!</p>
+        </section>
+
+        <section class="cards-grid" id="favorites-container">
+            <!-- Beispiel-Favorit 1 -->
+            <article class="place-card">
+                <img src="https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?w=500&auto=format&fit=crop&q=80" alt="Raichberg-Turm">
+                <div class="card-body">
+                    <span class="category-badge aussicht">Aussichtspunkt</span>
+                    <h3>Raichberg-Turm & Zeller Horn</h3>
+                    <p class="address">📍 Onstmettingen, 72461 Albstadt</p>
+                    <p class="hours">🕒 Öffnungszeiten: Immer zugänglich</p>
+                    <p>Spektakulärer Panoramablick auf die Burg Hohenzollern.</p>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-danger btn-sm">❌ Aus Favoriten entfernen</button>
+                        <a href="karte.html?place=1" class="btn btn-sm">Auf Karte</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Beispiel-Favorit 2 -->
+            <article class="place-card">
+                <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=500&auto=format&fit=crop&q=80" alt="Schloss Schenkenberg">
+                <div class="card-body">
+                    <span class="category-badge kultur">Kultur & Geschichte</span>
+                    <h3>Schloss Schenkenberg</h3>
+                    <p class="address">📍 Schenkenberg 1, 72458 Albstadt</p>
+                    <p class="hours">🕒 Di-So 10:00 - 17:00 Uhr</p>
+                    <p>Historische Burganlage und Wahrzeichen mit idyllischem Innenhof.</p>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-danger btn-sm">❌ Aus Favoriten entfernen</button>
+                        <a href="karte.html?place=2" class="btn btn-sm">Auf Karte</a>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 AlbGuide - WebAnwendungen Praktikum | <a href="kontakt.html#impressum">Impressum & Datenschutz</a></p>
+    </footer>
+
+</body>
+</html>

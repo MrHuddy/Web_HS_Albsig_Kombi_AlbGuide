@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karte & Orte - AlbGuide</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>AlbGuide <span>Albstadt</span></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Startseite</a></li>
+                <li><a href="karte.html" class="active">Karte & Orte</a></li>
+                <li><a href="favoriten.html">Meine Favoriten (<span id="fav-counter">0</span>)</a></li>
+                <li><a href="kontakt.html">Kontakt & Impressum</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="map-layout">
+        <!-- Sidebar mit Filter und Ortsliste -->
+        <aside class="sidebar">
+            <section class="filter-box">
+                <h2>Orte filtern</h2>
+                <form id="search-form" action="#" method="get">
+                    <div class="form-group">
+                        <label for="search">Suchbegriff:</label>
+                        <input type="search" id="search" name="q" placeholder="Name, Adresse...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category-filter">Kategorie:</label>
+                        <select id="category-filter" name="category">
+                            <option value="">Alle Kategorien</option>
+                            <option value="natur">Natur & Wandern</option>
+                            <option value="kultur">Kultur & Geschichte</option>
+                            <option value="aussicht">Aussichtspunkt</option>
+                            <option value="gastro">Essen & Trinken</option>
+                        </select>
+                    </div>
+                </form>
+            </section>
+
+            <section class="places-section">
+                <h3>Ergebnisse (<span id="results-count">3</span>)</h3>
+                <div class="places-list" id="places-list">
+                    
+                    <article class="place-item" data-id="1">
+                        <img src="https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?w=200&auto=format&fit=crop&q=80" alt="Raichberg-Turm">
+                        <div class="place-info">
+                            <span class="category-badge aussicht">Aussichtspunkt</span>
+                            <h4>Raichberg-Turm</h4>
+                            <p class="address">📍 72461 Onstmettingen</p>
+                            <p class="hours">🕒 Rund um die Uhr geöffnet</p>
+                            <div class="item-actions">
+                                <button type="button" class="btn btn-sm btn-fav">⭐ Favorit</button>
+                                <button type="button" class="btn btn-sm btn-outline">Auf Karte zeigen</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="place-item" data-id="2">
+                        <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=200&auto=format&fit=crop&q=80" alt="Schloss Schenkenberg">
+                        <div class="place-info">
+                            <span class="category-badge kultur">Kultur & Geschichte</span>
+                            <h4>Schloss Schenkenberg</h4>
+                            <p class="address">📍 Schenkenberg 1, 72458 Albstadt</p>
+                            <p class="hours">🕒 Di-So 10:00 - 17:00 Uhr</p>
+                            <div class="item-actions">
+                                <button type="button" class="btn btn-sm btn-fav">⭐ Favorit</button>
+                                <button type="button" class="btn btn-sm btn-outline">Auf Karte zeigen</button>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+        </aside>
+
+        <!-- Hauptbereich: Karte & Formular -->
+        <div class="main-content-map">
+            <!-- Kartencontainer -->
+            <section class="map-container-wrapper">
+                <h2>Interaktive Karte</h2>
+                <div id="map">
+                    <!-- Platzhalter für Mockup/Prototyp mit Popup-Vorschau -->
+                    <div class="map-placeholder">
+                        <p><em>[Leaflet / OpenStreetMap Karte Albstadt]</em></p>
+                        <!-- Vorschau des Popups zur Demonstration -->
+                        <div class="map-popup-preview">
+                            <img src="https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?w=300&auto=format&fit=crop&q=80" alt="Raichberg-Turm">
+                            <h4>Raichberg-Turm & Zeller Horn</h4>
+                            <span class="category-badge aussicht">Aussichtspunkt</span>
+                            <p class="address">📍 Onstmettingen, 72461 Albstadt</p>
+                            <p class="hours">🕒 Öffnungszeiten: Rund um die Uhr</p>
+                            <p class="desc">Spektakulärer Panoramablick auf die Burg Hohenzollern.</p>
+                            <button type="button" class="btn btn-sm btn-fav">⭐ Als Favorit merken</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Formular: Ort eintragen (Felder 1:1 deckungsgleich mit Popup/Details) -->
+            <section class="add-place-box" id="add-place-heading">
+                <h2>Neuen Ort vorschlagen</h2>
+                <p>Kennen Sie einen Geheimtipp in Albstadt? Tragen Sie ihn hier ein:</p>
+
+                <form id="add-place-form" action="api/add_place.php" method="post" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="place-title">Name des Ortes *:</label>
+                            <input type="text" id="place-title" name="title" placeholder="z. B. Aussichtsturm Raichberg" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="place-category">Kategorie *:</label>
+                            <select id="place-category" name="category" required>
+                                <option value="">Bitte wählen...</option>
+                                <option value="natur">Natur & Wandern</option>
+                                <option value="kultur">Kultur & Geschichte</option>
+                                <option value="aussicht">Aussichtspunkt</option>
+                                <option value="gastro">Essen & Trinken</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="place-address">Adresse / Standortangabe *:</label>
+                            <input type="text" id="place-address" name="address" placeholder="z. B. Onstmettingen, 72461 Albstadt" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="place-hours">Öffnungszeiten:</label>
+                            <input type="text" id="place-hours" name="opening_hours" placeholder="z. B. Di-So 10:00-18:00 oder Immer offen">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="place-description">Beschreibung *:</label>
+                        <textarea id="place-description" name="description" rows="3" placeholder="Kurze Beschreibung des Ortes, Besonderheiten..." required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="place-lat">Breitengrad (Latitude) *:</label>
+                            <input type="number" step="any" id="place-lat" name="latitude" placeholder="z. B. 48.2831" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="place-lng">Längengrad (Longitude) *:</label>
+                            <input type="number" step="any" id="place-lng" name="longitude" placeholder="z. B. 8.9953" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="place-image">Foto (URL oder Datei):</label>
+                        <input type="file" id="place-image" name="image" accept="image/*">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Ort vorschlagen</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 AlbGuide - WebAnwendungen Praktikum | <a href="kontakt.html#impressum">Impressum & Datenschutz</a></p>
+    </footer>
+
+</body>
+</html>
