@@ -2,9 +2,12 @@
    1. Globale Variablen & Reset
    ========================================================================== */
 :root {
-    --primary-color: #2c7a7b;       /* Hab hier Natur farben benutzt */
+    --primary-color: #2c7a7b;       
     --primary-hover: #234e52;
-    --accent-color: #dd6b20;        /* Akzent-Orange für Buttons zum huighlighten */
+    --accent-color: #dd6b20;        /* Akzent-Orange für Buttons */
+    --star-inactive: #a0aec0;      /* Inaktiv-Grau */
+    --star-active: #d69e2e;        /* Kräftiges Favoriten-Gold */
+    --star-active-hover: #b7791f;
     --bg-light: #f7fafc;
     --card-bg: #ffffff;
     --text-dark: #2d3748;
@@ -138,9 +141,6 @@ main:has(#map) > section:nth-child(3) {
     align-items: center;
     justify-content: center;
     color: var(--text-dark);
-}
-
-#map {
     padding: 1rem;
     cursor: pointer;
     flex-direction: column;
@@ -160,7 +160,6 @@ main:has(#map) > section:nth-child(3) {
     font-size: 0.85rem;
     color: var(--text-muted);
 }
-/*bis hier kann entfernt werden, sobald karte via JS geladen wird*/
 
 /* Detailbereich unter der Karte (erscheint nach Klick) */
 #place-details {
@@ -187,6 +186,12 @@ main:has(#map) > section:nth-child(3) {
     margin-bottom: 1rem;
 }
 
+.details-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
 #place-details h3 {
     color: var(--primary-color);
 }
@@ -204,7 +209,7 @@ main:has(#map) > section:nth-child(3) {
     margin-bottom: 0.5rem;
 }
 
-/* Schließen-Button im gleichen Stil wie die Buttons in der Ortsliste */
+/* Schließen-Button */
 #close-button {
     background-color: var(--bg-light);
     color: var(--primary-color);
@@ -244,15 +249,84 @@ main:has(#map) > section:nth-child(3) {
     border-color: var(--primary-color);
 }
 
+.place-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+}
+
 #places-list h4 {
     color: var(--primary-color);
-    margin-bottom: 0.3rem;
+    font-size: 1.05rem;
 }
 
 #places-list p {
     font-size: 0.9rem;
     color: var(--text-dark);
     margin-bottom: 0.5rem;
+}
+
+/* ==========================================================================
+   5.1 Favoriten Stern-Button (Präzise isolierte Styles)
+   ========================================================================== */
+#places-list button.show-map-btn {
+    background-color: var(--bg-light);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+#places-list button.show-map-btn:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+#places-list button.favorite-btn,
+#place-details button.favorite-btn,
+
+button.favorite-btn{
+    background: transparent;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0.2rem 0.4rem;
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--star-inactive);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease, transform 0.15s ease;
+    user-select: none;
+}
+
+
+#places-list button.favorite-btn:hover,
+#place-details button.favorite-btn:hover,
+button.favorite-btn:hover {
+    color: var(--star-active);
+    transform: scale(1.25);
+    background: transparent;
+}
+
+
+#places-list button.favorite-btn.active,
+#place-details button.favorite-btn.active,
+button.favorite-btn.active{
+    color: var(--star-active);
+    text-shadow: 0 0 3px rgba(214, 158, 46, 0.5);
+}
+
+#places-list button.favorite-btn.active:hover,
+#place-details button.favorite-btn.active:hover,
+button.favorite-btn.active:hover{
+    color: var(--star-active-hover);
 }
 
 /* ==========================================================================
@@ -313,7 +387,8 @@ button:hover {
     background-color: var(--primary-hover);
 }
 
-#places-list button {
+/* "Auf Karte anzeigen" Buttons in der Liste */
+#places-list button.show-map-btn {
     background-color: var(--bg-light);
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
@@ -322,7 +397,7 @@ button:hover {
     margin-top: 0.5rem;
 }
 
-#places-list button:hover {
+#places-list button.show-map-btn:hover {
     background-color: var(--primary-color);
     color: #ffffff;
 }
@@ -388,7 +463,8 @@ footer {
         gap: 1rem;
         text-align: center;
     }
-        #place-details {
+
+    #place-details {
         grid-template-columns: 1fr;
     }
 
