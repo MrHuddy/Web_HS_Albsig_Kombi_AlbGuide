@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
 
     <!-- Kopfbereich mit Navigation -->
     <header>
@@ -26,63 +25,88 @@
         <section aria-labelledby="filter-heading">
             <h2 id="filter-heading">Orte filtern & suchen</h2>
             
-            <form id="search-form" action="#" method="get">
+            <form id="search-form" onsubmit="event.preventDefault(); filterPlaces();">
                 <div>
                     <label for="search">Suchbegriff:</label>
-                    <input type="search" id="search" name="q" placeholder="z. B. Schloss, Aussichtsturm...">
+                    <input type="search" id="search" name="q" placeholder="z. B. Schloss, Pub..." oninput="filterPlaces()">
                 </div>
 
                 <div>
                     <label for="category-filter">Kategorie:</label>
-                    <select id="category-filter" name="category">
+                    <select id="category-filter" name="category" onchange="filterPlaces()">
                         <option value="">Alle Kategorien</option>
                         <option value="natur">Natur & Wandern</option>
                         <option value="kultur">Kultur & Geschichte</option>
                         <option value="aussicht">Aussichtspunkte</option>
                         <option value="gastro">Essen & Trinken</option>
+                        <option value="favorites">★ Nur Favoriten</option>
                     </select>
                 </div>
 
-                <button type="submit">Suchen</button>
+                <button type="submit">Suchen / Filtern</button>
             </form>
 
             <section aria-labelledby="places-list-heading">
                 <h3 id="places-list-heading">Gefundene Orte</h3>
                 <ul id="places-list">
-                    <!-- Beispiel-Eintrag zur Demonstration der HTML-Struktur -->
+                    <!-- Eintrag 1 -->
                     <li>
-                        <article>
-                            <h4>Schloss Schenkenberg</h4>
+                        <article data-place-id="schlossbergturm" data-category="kultur">
+                            <div class="place-header">
+                                <h4>Schlussbergturm</h4>
+                                <button type="button" class="favorite-btn" onclick="toggleFavorite('schlossbergturm')" aria-label="Favorit umschalten" title="Zu Favoriten hinzufügen">
+                                    ★
+                                </button>
+                            </div>
                             <p><strong>Kategorie:</strong> Kultur & Geschichte</p>
                             <p>Historische Burganlage mit schönem Blick über die Stadt.</p>
-                            <button type="button">Auf Karte anzeigen</button>
+                            <button type="button" class="show-map-btn" onclick="openDetailsFor('schlossbergturm', 'Schlossbergturm', 'Kultur & Geschichte', 'Historische Schlossturm mit schönem Blick über die Stadt.', 'img/schlossbergturm.jpg')">Auf Karte anzeigen</button>
+                        </article>
+                    </li>
+
+                    <!-- Eintrag 2 -->
+                    <li>
+                        <article data-place-id="irish-pub-ebingen" data-category="gastro">
+                            <div class="place-header">
+                                <h4>Irish Pub Ebingen</h4>
+                                <button type="button" class="favorite-btn" onclick="toggleFavorite('irish-pub-ebingen')" aria-label="Favorit umschalten" title="Zu Favoriten hinzufügen">
+                                    ★
+                                </button>
+                            </div>
+                            <p><strong>Kategorie:</strong> Essen & Trinken</p>
+                            <p>Gemütlicher Pub in Ebingen mit Getränken und Snacks.</p>
+                            <button type="button" class="show-map-btn" onclick="openDetailsFor('irish-pub-ebingen', 'Irish Pub Ebingen', 'Essen & Trinken', 'Gemütlicher Pub in Ebingen mit Getränken und Snacks.', 'img/IrishPub.png')">Auf Karte anzeigen</button>
                         </article>
                     </li>
                 </ul>
             </section>
         </section>
 
-                <!-- Bereich für die interaktive Karte -->
+        <!-- Bereich für die interaktive Karte -->
         <section aria-labelledby="map-heading">
             <h2 id="map-heading">Interaktive Karte</h2>
             <!-- Hier wird später die Leaflet-Karte per JavaScript eingehängt -->
-                        <div id="map" onclick="openDetails()">
+            <div id="map" onclick="openDetailsFor('irish-pub-ebingen', 'Irish Pub Ebingen', 'Essen & Trinken', 'Gemütlicher Pub in Ebingen mit Getränken und Snacks.', 'img/IrishPub.png')">
                 <img src="img/EbingenBspKarte.png" alt="Beispielkarte von Ebingen">
                 <p><em>[Kartenbereich - wird in Phase 2 via JavaScript geladen]</em></p>
                 <p>(klicken simuliert Aufrufen einer Aktivität)</p>
             </div>
 
-            <!-- Detailbereich: erscheint unter der Karte nach Klick, am Anfang versteckt -->
-            <article id="place-details" class="hidden">
+            <!-- Detailbereich -->
+            <article id="place-details" class="hidden" data-current-place-id="irish-pub-ebingen">
                 <div id="place-details-header">
-                    <h3>Irish Pub Ebingen</h3>
+                    <div class="details-title-wrapper">
+                        <h3 id="details-title">Irish Pub Ebingen</h3>
+                        <button type="button" id="details-fav-btn" class="favorite-btn" onclick="toggleFavoriteFromDetails()" aria-label="Favorit umschalten" title="Zu Favoriten hinzufügen">
+                            ★
+                        </button>
+                    </div>
                     <button type="button" id="close-button" onclick="closeDetails()" aria-label="Details schließen">✕</button>
                 </div>
-                <img src="img/IrishPub.png" alt="Beispielbild Irish Pub">
+                <img id="details-img" src="img/IrishPub.png" alt="Detailbild">
                 <div>
-                    <p><em>Das ist nur ein Beispiel!</em></p>
-                    <p><strong>Kategorie:</strong> Essen & Trinken</p>
-                    <p>Gemütlicher Pub in Ebingen mit Getränken und Snacks.</p>
+                    <p id="details-category"><strong>Kategorie:</strong> Essen & Trinken</p>
+                    <p id="details-description">Gemütlicher Pub in Ebingen mit Getränken und Snacks.</p>
                 </div>
             </article>
         </section>
@@ -137,18 +161,171 @@
         <p>&copy; 2026 AlbGuide - WebAnwendungen Praktikum</p>
     </footer>
 
+    <!-- JavaSc für Fav und filter -->
     <script>
-                // Detailbereich unter der Karte anzeigen
-        function openDetails() {
+        const COOKIE_NAME = "albguide_favorites";
+        const COOKIE_DAYS = 30;
+
+        // Cookie funktionene
+        function setCookie(name, value, days) {
+            const expires = new Date(Date.now() + days * 864e5).toUTCString(); //date now = 01.01.1970
+            // 864 * 1000 * 1000 = 1 Tag in Millisekundens
+            document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
+            // Fallback für Browser, die Cookies bei file:// blockieren:
+            try { localStorage.setItem(name, value); } catch (e) {}
+        }
+
+        function getCookie(name) {
+            // 1. Aus document.cookie lesen
+            if (document.cookie) {
+                const cookies = document.cookie.split(/;\s*/);
+                for (const c of cookies) {
+                    const eq = c.indexOf("=");
+                    if (eq > -1 && c.substring(0, eq) === name) {
+                        return decodeURIComponent(c.substring(eq + 1));
+                    }
+                }
+            }
+            // 2. Fallback: localStorage
+            try {
+                const lsVal = localStorage.getItem(name);
+                if (lsVal) return lsVal;
+            } catch (e) {}
+            return null; //standard auf null, da keine localStorage oder Cookie vorhanden
+        }
+
+        // Fav abrufen & speichern 
+        function getFavorites() {
+            const val = getCookie(COOKIE_NAME);
+            if (!val) return [];
+            try {
+                const parsed = JSON.parse(val); //versucht string val in Array zu wandeln
+                return Array.isArray(parsed) ? parsed : []; // falls es kein Arryay ist, dann leer
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveFavorites(favsArray) {
+            setCookie(COOKIE_NAME, JSON.stringify(favsArray), COOKIE_DAYS);
+            // ein update der UI wird später aufgerufen 
+        }
+
+        // Toggle-Funktion
+        function toggleFavorite(placeId) {
+            if (!placeId) return;
+            let favs = getFavorites();
+            const index = favs.indexOf(placeId);
+
+            if (index > -1) {
+                favs.splice(index, 1); // entfernen
+            } else {
+                favs.push(placeId); // hinzufügen
+            }
+
+            saveFavorites(favs);
+            updateAllFavoriteButtons();
+
+            // Falls Filter auf "Nur Favoriten" steht, Liste direkt neu filtern
+            const categorySelect = document.getElementById("category-filter");
+            if (categorySelect && categorySelect.value === "favorites") {
+                filterPlaces();
+            }
+        }
+
+        function toggleFavoriteFromDetails() {
             const details = document.getElementById("place-details");
+            const currentId = details.getAttribute("data-current-place-id");
+            if (currentId) {
+                toggleFavorite(currentId);
+            }
+        }
+
+        // UI Aktualisierung der Sterne
+        function updateAllFavoriteButtons() {
+            const favs = getFavorites();
+
+            // 1. Liste links aktualisieren
+            document.querySelectorAll("#places-list article").forEach(article => {
+                const placeId = article.getAttribute("data-place-id");
+                const btn = article.querySelector(".favorite-btn");
+                if (btn && placeId) {
+                    const isFav = favs.includes(placeId);
+                    btn.classList.toggle("active", isFav);
+                    btn.setAttribute("aria-label", isFav ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen");
+                    btn.title = isFav ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen";
+                }
+            });
+
+            // 2. Side Panel / Detailbereich aktualisieren
+            const details = document.getElementById("place-details");
+            const currentDetailId = details.getAttribute("data-current-place-id");
+            const detailFavBtn = document.getElementById("details-fav-btn");
+            if (detailFavBtn && currentDetailId) {
+                const isFav = favs.includes(currentDetailId);
+                detailFavBtn.classList.toggle("active", isFav);
+                detailFavBtn.setAttribute("aria-label", isFav ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen");
+                detailFavBtn.title = isFav ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen";
+            }
+        }
+
+        // Details öffnen
+        function openDetailsFor(placeId, title, category, description, imgSrc) {
+            const details = document.getElementById("place-details");
+            details.setAttribute("data-current-place-id", placeId);
+
+            document.getElementById("details-title").textContent = title;
+            document.getElementById("details-category").innerHTML = `<strong>Kategorie:</strong> ${category}`;
+            document.getElementById("details-description").textContent = description;
+            if (imgSrc) {
+                document.getElementById("details-img").src = imgSrc;
+            }
+
             details.classList.remove("hidden");
+            updateAllFavoriteButtons();
             details.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }
 
-        // Detailbereich wieder verstecken
         function closeDetails() {
             document.getElementById("place-details").classList.add("hidden");
         }
+
+        //Filter-Logik (inkl. 'Nur Favoriten')
+        function filterPlaces() {
+            const query = (document.getElementById("search").value || "").toLowerCase().trim();
+            //einheitliche key
+            const category = document.getElementById("category-filter").value;
+            const favs = getFavorites();
+
+            document.querySelectorAll("#places-list li").forEach(li => {
+                const article = li.querySelector("article");
+                if (!article) return;
+
+                const placeId = article.getAttribute("data-place-id");
+                const placeCategory = article.getAttribute("data-category") || "";
+                const text = article.textContent.toLowerCase();
+
+                const matchesQuery = query === "" || text.includes(query);
+                let matchesCategory = true;
+
+                if (category === "favorites") {
+                    matchesCategory = favs.includes(placeId);
+                } else if (category !== "") {
+                    matchesCategory = (placeCategory === category);
+                }
+
+                if (matchesQuery && matchesCategory) {
+                    li.style.display = "";
+                } else {
+                    li.style.display = "none";
+                }
+            });
+        }
+
+        // Init beim Laden
+        document.addEventListener("DOMContentLoaded", () => {
+            updateAllFavoriteButtons();
+        });
     </script>
 
 </body>
