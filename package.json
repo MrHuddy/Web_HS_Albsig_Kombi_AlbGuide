@@ -1,0 +1,26 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "git remote add origin https://github.com/MrHuddy/Web_HS_Albsig_Kombi_AlbGuide.git <br> git branch -M main <br> git push -u origin main",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrHuddy/Web_HS_Albsig_Kombi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MrHuddy/Web_HS_Albsig_Kombi/issues"
+  },
+  "homepage": "https://github.com/MrHuddy/Web_HS_Albsig_Kombi#readme",
+  "dependencies": {
+    "better-sqlite3": "^13.2.0",
+    "cors": "^2.8.6",
+    "express": "^5.3.0"
+  }
+}
