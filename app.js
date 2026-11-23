@@ -220,45 +220,81 @@ function filterPlaces() {
 // REST-API: FORMULAR ABSENDEN (POST)
 // ==========================================
 const addPlaceForm = document.getElementById("add-place-form");
-if (addPlaceForm) {
-    addPlaceForm.addEventListener("submit", async function(event) {
-        event.preventDefault();
+const formMessage = document.getElementById("form-message");
 
-        const formData = new FormData(addPlaceForm);
-        const placeData = {
-            title: formData.get("title"),
-            category: formData.get("category"),
-            description: formData.get("description"),
-            latitude: parseFloat(formData.get("latitude")),
-            longitude: parseFloat(formData.get("longitude"))
-        };
-
-        try {
-            const response = await fetch("/api/places", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(placeData)
-            });
-
-            const result = await response.json();
-
-            if (response.ok && result.success) {
-                alert("Erfolg: Neuer Ort wurde in SQLite gespeichert!");
-                addPlaceForm.reset();
-                // Liste sofort mit den neuen Daten aus der DB aktualisieren:
-                loadPlacesFromAPI();
-            } else {
-                const errorMsg = result.errors ? result.errors.join("\n") : (result.error || "Konnte nicht gespeichert werden.");
-                alert("Fehler:\n" + errorMsg);
-            }
-        } catch (error) {
-            console.error("Netzwerkfehler:", error);
-            alert("Server ist nicht erreichbar!");
-        }
-    });
+// Zeigt eine Meldung unter dem Formular an
+function zeigeMeldung(text, typ) {
+    formMessage.textContent = text;
+    formMessage.className = typ; // "success" oder "error"
 }
+
+addPlaceForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    // Werte aus dem Formular holen
+    const title = document.getElementById("place-title").value.trim();
+    const category = document.getElementById("place-category").value;
+    const description = document.getElementById("place-description").value.trim();
+    const latitude = parseFloat(document.getElementById("place-lat").value);
+    const longitude = parseFloat(document.getElementById("place-lng").value);
+
+    // Eingaben prüfen
+    const fehler = [];
+
+    if (title.length < 2) {
+        fehler.push("Der Name muss mindestens 2 Zeichen lang sein.");
+    }
+    if (category === "") {
+        fehler.push("Bitte eine Kategorie wählen.");
+    }
+    if (description.length < 5) {
+        fehler.push("Die Beschreibung muss mindestens 5 Zeichen lang sein.");
+    }
+    if (isNaN(latitude) || latitude < -90 || latitude > 90) {
+        fehler.push("Der Breitengrad muss eine Zahl zwischen -90 und 90 sein.");
+    }
+    if (isNaN(longitude) || longitude < -180 || longitude > 180) {
+        fehler.push("Der Längengrad muss eine Zahl zwischen -180 und 180 sein.");
+    }
+
+    // Bei Fehlern abbrechen, die Eingaben bleiben stehen
+    if (fehler.length > 0) {
+        zeigeMeldung(fehler.join(" "), "error");
+        return;
+    }
+
+    // Daten an den Server schicken
+    const placeData = {
+        title: title,
+        category: category,
+        description: description,
+        latitude: latitude,
+        longitude: longitude
+    };
+
+    try {
+        const response = await fetch("/api/places", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(placeData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            zeigeMeldung("Der Ort wurde erfolgreich gespeichert!", "success");
+            addPlaceForm.reset();
+            loadPlacesFromAPI();
+        } else if (result.errors) {
+            zeigeMeldung(result.errors.join(" "), "error");
+        } else {
+            zeigeMeldung("Der Ort konnte nicht gespeichert werden.", "error");
+        }
+    } catch (error) {
+        console.error(error);
+        zeigeMeldung("Es ist ein Fehler aufgetreten. Ist der Server gestartet?", "error");
+    }
+});
 
 // Beim Laden der Seite Daten holen
 document.addEventListener("DOMContentLoaded", () => {

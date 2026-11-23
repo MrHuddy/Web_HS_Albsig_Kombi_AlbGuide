@@ -472,3 +472,14 @@ footer {
         margin-bottom: 1rem;
     }
 }
+
+/* Meldung unter dem Formular */
+#form-message.success {
+    color: green;
+    font-weight: bold;
+}
+
+#form-message.error {
+    color: red;
+    font-weight: bold;
+}
